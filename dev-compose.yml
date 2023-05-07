@@ -1,0 +1,19 @@
+---
+services:
+  nextjs:
+    build: . 
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+    depends_on:
+      - pocketbase
+  
+  pocketbase:
+    build: pocketbase
+    ports:
+      - 8080:8080
+    volumes:
+      - ./pocketbase/data/:/pb/pb_data

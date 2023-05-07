@@ -1,0 +1,5 @@
+---
+services:
+  nextjs:
+    depends_on:
+      - pocketbase
