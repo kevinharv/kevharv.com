@@ -1,5 +1,13 @@
 ---
 services:
   nextjs:
-    depends_on:
-      - pocketbase
+    build: prod.Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    # healthcheck:
+    #   test: ["CMD", "curl", "-fk", "${FRONTEND_HOSTNAME}:${FRONTEND_PORT}/api/healthcheck"]
+    #   interval: 3s
+    #   timeout: 3s
+    #   retries: 3
