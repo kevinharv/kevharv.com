@@ -1,4 +1,5 @@
 import SocialButton from "@/components/SocialButton"
+import Image from "next/image"
 
 export default function Home() {
   return (
@@ -11,7 +12,17 @@ export default function Home() {
             <div className="mt-4 flex justify-center">
               <SocialButton icon="/github.png" label="GitHub" link="https://github.com/kevinharv/"/>
               <SocialButton icon="/linkedin.png" label="LinkedIn" link="https://www.linkedin.com/in/kevharv/"/>
-              <SocialButton icon="/resume.png" label="Résumé" link="/example-resume.pdf" />
+              {/* <SocialButton icon="/resume.png" label="Résumé" link="/example-resume.pdf" /> */}
+              <a href="/example-resume.pdf" >
+                <div className="m-4 p-1.5 rounded-lg bg-slate-300 bg-opacity-30 shadow-xl">
+                  <Image
+                    src="/resume.png"
+                    width={60}
+                    height={60}
+                    alt="Résumé"
+                  />
+                </div>
+              </a>
               <SocialButton icon="/contract.png" label="Blog" link="/blog" />
             </div>
           </div>
