@@ -1,34 +1,16 @@
-import fs from 'fs';
-import Link from 'next/link';
-import path from 'path';
-
-function getFilenamesWithoutExtension(directoryPath: string): Promise<string[]> {
-    return new Promise((resolve, reject) => {
-        fs.readdir(directoryPath, (err, files) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-
-            const filenamesWithoutExtension = files.map((file) => {
-                const extensionIndex = file.lastIndexOf('.');
-                return extensionIndex > 0 ? file.substring(0, extensionIndex) : file;
-            });
-
-            resolve(filenamesWithoutExtension);
-        });
-    });
-}
+import BlogEntry from '@/components/BlogEntry';
+import { getMDFilenames } from '@/utilities/blogPosts';
 
 export default async function Blog() {
-    const files = await getFilenamesWithoutExtension(path.join(process.cwd(), 'md'));
+    const files = await getMDFilenames();
+
     return (
-        <div className='flex justify-center'>
+        <div className='h-screen flex justify-center bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 '>
             <div className='flex flex-col'>
-                <h1 className="text-5xl">BLOG</h1>
-                <div className='flex justify-center'>
+                <div className="my-4 p-6 px-96 rounded-lg bg-slate-300 bg-opacity-60"><h1 className='text-5xl font-bold text-center'>LATEST</h1></div>
+                <div className='grid grid-cols-4 justify-center'>
                     {files?.map((file) => {
-                        return <Link key={file} href={`/blog/${file}`} className='text-4xl'>{file}</Link>
+                    return <BlogEntry key={file} path={file} />
                     })}
                 </div>
             </div>
