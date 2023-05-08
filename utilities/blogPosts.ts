@@ -1,4 +1,5 @@
 import fs from 'fs';
+import matter from 'gray-matter';
 import path from 'path'
 
 // Get all file names in the markdown directory
@@ -16,7 +17,11 @@ export async function getMDFilenames(): Promise<string[]> {
 
             else {
                 // Map file names and get extension-less name
-                const filenames = files.map((file) => {
+                const f = files.filter((file) => {
+                    return file.endsWith('.md')
+                });
+
+                const filenames = f.map((file) => {
                     const extIndex = file.lastIndexOf('.');
                     return extIndex > 0 ? file.substring(0, extIndex) : file;
                 });
@@ -32,3 +37,14 @@ export async function getMDFilenames(): Promise<string[]> {
 }
 
 // Parse Markdown
+export async function generateMDX(post: string) {
+    const filepath = path.join(process.cwd(), 'md', `${post}.md`);
+    const fileContents = fs.readFileSync(filepath, 'utf-8');
+
+    const matterResult = matter(fileContents);
+
+    const mdxFilePath = path.join(process.cwd(), 'mdx', `${post}.mdx`);
+    fs.writeFileSync(mdxFilePath, matterResult.content, 'utf-8');
+
+    return matterResult.data;
+}
